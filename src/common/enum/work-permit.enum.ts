@@ -1,0 +1,18 @@
+export enum HeaderWorkPermitExcelEnum {
+  PERMIT_NUMBER = 'Permit Number',
+  PERMIT_TYPE = 'Permit Type',
+  PERMIT_ISSUER = 'Permit Issuer',
+  ISSUANCE_DATE = 'Issuance Date',
+  START_DATE_AND_TIME = 'Start Date and Time',
+  END_DATE_AND_TIME = 'End Date and Time',
+  PERMIT_REQUESTOR = 'Permit Requestor',
+  PERMIT_APPROVER = 'Permit Approver',
+  PERMIT_HOLDER = 'Permit Holder',
+  WORK_LOCATION = 'Work Location',
+  WORK_DESCRIPTION = 'Work Description',
+  CONDITIONS = 'Conditions',
+  SAFETY_MEASURES = 'Safety Measures',
+  HAZARDS_AND_PRECAUTIONS = 'Hazards and Precautions',
+  PPE = 'Required Personal Protective Equipment (PPE)',
+  WORK_PERMIT_STATUS = 'Work Permit Status',
+}
