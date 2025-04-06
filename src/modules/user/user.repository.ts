@@ -15,13 +15,12 @@ export class UserRepository extends TypeORMRepository<UserEntity> {
   }
 
   async findByEmail(email: string): Promise<UserEntity | null> {
-    const user = await this.createQueryBuilder('u')
-      .select(['id', 'email'])
-      .printSql() // In ra câu lệnh SQL thực tế
-      .getMany();
-    console.log(user, 'falksdjf');
-    return await this.findOne({
-      where: { email },
-    });
+    return this.createQueryBuilder('u')
+      .where('u.email ILIKE :email', { email: `${escapeUnderscore(email)}` })
+      .getOne();
   }
 }
+
+const escapeUnderscore = (email: string): string => {
+  return email.replace(/_/g, '\\_');
+};

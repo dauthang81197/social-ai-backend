@@ -27,11 +27,5 @@ export const BASE_PLATFORM_IMPORTS = [
 ];
 @Module({
   imports: [...BASE_PLATFORM_IMPORTS],
-  providers: [
-    //   {
-    //     provide: APP_INTERCEPTOR,
-    //     useClass: ActivityLogInterceptor,
-    //   },
-  ],
 })
 export class BaseModule {}

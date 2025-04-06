@@ -29,14 +29,6 @@ export const CORE_MODULE_IMPORT = [
       return addTransactionalDataSource(new DataSource(options));
     },
   }),
-  // TypeOrmModule.forRootAsync({
-  //   useFactory() {
-  //     return connectionOptions;
-  //   },
-  //   async dataSourceFactory() {
-  //     return dataSource;
-  //   },
-  // }),
 ];
 
 @Module({
