@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
-
+import { UserEntity } from 'src/modules/user/user.entity';
+import { DataSource, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async checkEmail(email) {
+  async checkEmail(email: string) {
     return await this.userRepository.findByEmail(email);
   }
 }

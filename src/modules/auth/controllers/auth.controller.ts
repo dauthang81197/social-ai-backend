@@ -1,19 +1,10 @@
-import {
-  Body,
-  Controller,
-  HttpCode,
-  HttpStatus,
-  Post,
-  Req,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { UserGroupEnum } from 'src/common/enum';
 import { LogExecutionTime } from 'src/decorators/log-execution-time.decorator';
 import { AuthService } from 'src/modules/auth/auth.service';
 import { LoginDto } from 'src/modules/auth/dto/login.dto';
@@ -23,10 +14,7 @@ import { LoginDto } from 'src/modules/auth/dto/login.dto';
 @ApiBearerAuth()
 @LogExecutionTime()
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
   @HttpCode(HttpStatus.OK)
@@ -37,8 +25,7 @@ export class AuthController {
   @ApiBadRequestResponse({
     description: 'Username or password incorrect',
   })
-  login(@Body() loginDto: LoginDto, @Req() req) {
-    const headers = req.headers;
-    return this.authService.login(loginDto, headers, UserGroupEnum.SYSTEM);
+  login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
   }
 }
