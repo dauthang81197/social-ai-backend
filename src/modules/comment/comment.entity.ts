@@ -1,14 +1,8 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  CreateDateColumn,
-  JoinColumn,
-} from 'typeorm';
-import { UserEntity } from '../user/user.entity';
+import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+
+import { AbstractEntityWithAudit } from '../../database';
 import { PostEntity } from '../post/post.entity';
-import { AbstractEntityWithAudit } from 'src/database';
+import { UserEntity } from '../user/user.entity';
 
 @Entity('comments')
 export class CommentEntity extends AbstractEntityWithAudit {

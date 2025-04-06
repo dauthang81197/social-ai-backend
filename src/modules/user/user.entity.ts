@@ -1,17 +1,19 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   OneToMany,
   ManyToMany,
   JoinTable,
+  Unique,
 } from 'typeorm';
-import { PostEntity } from '../post/post.entity';
+
+import { AbstractEntityWithAudit } from '../../database';
 import { CommentEntity } from '../comment/comment.entity';
-import { AbstractEntityWithAudit } from 'src/database';
+import { PostEntity } from '../post/post.entity';
 import { RolesEntity } from '../roles/roles.entity';
 
 @Entity('users')
+@Unique(['email'])
 export class UserEntity extends AbstractEntityWithAudit {
   @Column({ unique: true })
   username: string;

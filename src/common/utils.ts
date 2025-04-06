@@ -1,22 +1,6 @@
-import { BadRequestException } from '@nestjs/common';
-import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import 'dotenv/config';
 import * as bcrypt from 'bcrypt';
-import { I18nContext } from 'nestjs-i18n';
-import * as path from 'path';
-import { Readable } from 'typeorm/platform/PlatformTools';
-
-import { MAX_LENGTH_IMPORT_FILE } from './constants';
-import {
-  AgeEnum,
-  DEFAULT_ROLE,
-  MODULE_NAME,
-  PeriodTypeEnum,
-  StatusEnum,
-  UserGroupEnum,
-  WorkOrderStatusEnum,
-} from './enum';
-import { HeaderOperationsExcelEnum } from './enum/operation.enum';
+import { AgeEnum, PeriodTypeEnum, UserGroupEnum } from './enum';
 
 export const comparePassword = (password: string, hash: string): boolean => {
   return bcrypt.compareSync(password, hash);
@@ -30,23 +14,6 @@ export const checkPermissionExits = (request: any, permissionCode: string) => {
       .map((item) => item.code)
       .includes(`${process.env.PRODUCT_CODE}::${permissionCode}`) >= 0
   );
-};
-
-const documentFileFilter = (req: any, file, callback) => {
-  const ext = path.extname(file.originalname);
-  const extArrayRequred = ['.jpg', '.jpeg', '.png', '.pdf'];
-
-  // Check type of File
-  if (extArrayRequred.indexOf(ext) === -1) {
-    return callback(new BadRequestException('file.INVALID_FILE_TYPE'), false);
-  }
-
-  return callback(null, true);
-};
-
-export const IMulterOptionsForRegisterUser: MulterOptions = {
-  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
-  fileFilter: documentFileFilter,
 };
 
 export const randomString = (len: number, charSet?: string) => {
@@ -315,19 +282,3 @@ export const findCommonElements = (arrays: string[][]): string[] => {
     arrays?.every((array) => array?.includes(element)),
   );
 };
-
-function validateFieldLength(
-  fieldName: string,
-  value: any,
-  maxLength: number = MAX_LENGTH_IMPORT_FILE,
-  i18n: I18nContext,
-) {
-  if (value && value?.toString().length > maxLength) {
-    return i18n.t('common.INVALID_MAX_LENGTH', {
-      args: {
-        fieldName: fieldName.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase(),
-      },
-    });
-  }
-  return null;
-}

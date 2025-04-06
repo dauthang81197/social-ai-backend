@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { UserEntity } from '../user/user.entity';
+import { Entity, ManyToOne, JoinColumn } from 'typeorm';
+
+import { AbstractEntityWithAudit } from '../../database';
 import { PostEntity } from '../post/post.entity';
-import { AbstractEntityWithAudit } from 'src/database';
+import { UserEntity } from '../user/user.entity';
 
 @Entity('likes')
 export class LikeEntity extends AbstractEntityWithAudit {

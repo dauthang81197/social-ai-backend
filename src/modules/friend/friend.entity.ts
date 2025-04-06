@@ -1,11 +1,6 @@
-import { AbstractEntityWithAudit } from 'src/database';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  Column,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, ManyToOne, JoinColumn } from 'typeorm';
+
+import { AbstractEntityWithAudit } from '../../database';
 import { UserEntity } from '../user/user.entity';
 
 @Entity('friends')

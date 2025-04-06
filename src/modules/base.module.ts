@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { HealthCheckerModule } from './health-checker/health-checker.module';
-import { UserModule } from './user/user.module';
-import { PostModule } from './post/post.module';
+
+import { AuthModule } from './auth/auth.module';
 import { CommentModule } from './comment/comment.module';
-import { LikeModule } from './like/like.module';
 import { FriendModule } from './friend/friend.module';
-import { NotificationModule } from './notification/notification.module';
+import { HealthCheckerModule } from './health-checker/health-checker.module';
+import { LikeModule } from './like/like.module';
 import { MessageModule } from './message/message.module';
-import { RolesModule } from './roles/roles.module';
+import { NotificationModule } from './notification/notification.module';
 import { PermissionsModule } from './permissions/permissions.module';
+import { PostModule } from './post/post.module';
+import { RolesModule } from './roles/roles.module';
+import { UserModule } from './user/user.module';
 
 export const BASE_PLATFORM_IMPORTS = [
   HealthCheckerModule,
@@ -22,6 +23,7 @@ export const BASE_PLATFORM_IMPORTS = [
   MessageModule,
   RolesModule,
   PermissionsModule,
+  AuthModule,
 ];
 @Module({
   imports: [...BASE_PLATFORM_IMPORTS],
