@@ -17,14 +17,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "@app/my-schematics": [
-        "libs/my-schematics/src"
-      ],
-      "@app/my-schematics/*": [
-        "libs/my-schematics/src/*"
-      ]
-    }
+    // "types": ["node", "Multer"] 
   },
   "watchOptions": {
     "watchFile": "fixedPollingInterval"

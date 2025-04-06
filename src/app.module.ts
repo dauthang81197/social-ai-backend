@@ -12,35 +12,44 @@ import I18nModuleConfig from './i18n';
 import { TrimRequestMiddleware } from './middleware/trim.middleware';
 import { BaseModule } from './modules/base.module';
 
-const dataSource = new DataSource(connectionOptions);
-addTransactionalDataSource(dataSource);
-
 export const CORE_MODULE_IMPORT = [
   ConfigModule.forRoot({
     isGlobal: true,
   }),
-  // I18nModuleConfig,
+  I18nModuleConfig,
   TypeOrmModule.forRootAsync({
     useFactory() {
       return connectionOptions;
     },
-    async dataSourceFactory() {
-      return dataSource;
+    async dataSourceFactory(options) {
+      if (!options) {
+        throw new Error('Invalid options passed');
+      }
+
+      return addTransactionalDataSource(new DataSource(options));
     },
   }),
+  // TypeOrmModule.forRootAsync({
+  //   useFactory() {
+  //     return connectionOptions;
+  //   },
+  //   async dataSourceFactory() {
+  //     return dataSource;
+  //   },
+  // }),
 ];
 
 @Module({
   imports: [...CORE_MODULE_IMPORT, BaseModule],
   controllers: [],
   providers: [
-    // {
-    //   provide: APP_FILTER,
-    //   useFactory: (i18n: I18nService) => {
-    //     return new HttpExceptionFilter(i18n);
-    //   },
-    //   inject: [I18nService],
-    // },
+    {
+      provide: APP_FILTER,
+      useFactory: (i18n: I18nService) => {
+        return new HttpExceptionFilter(i18n);
+      },
+      inject: [I18nService],
+    },
   ],
 })
 export class AppModule implements NestModule {

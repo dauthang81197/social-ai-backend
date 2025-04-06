@@ -1,12 +1,7 @@
 // src/modules/roles/entities/role.entity.ts
-import { AbstractEntityWithAudit } from 'src/database';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+
+import { AbstractEntityWithAudit } from '../../database';
 import { PermissionEntity } from '../permissions/permissions.entity';
 
 @Entity('roles')
@@ -14,7 +9,7 @@ export class RolesEntity extends AbstractEntityWithAudit {
   @Column({ unique: true })
   name: string; // Tên vai trò (admin, user...)
 
-  @ManyToMany(() => PermissionEntity)
+  @ManyToMany(() => PermissionEntity, { nullable: true })
   @JoinTable({
     name: 'role_permission_xref',
     joinColumn: {
@@ -26,5 +21,5 @@ export class RolesEntity extends AbstractEntityWithAudit {
       referencedColumnName: 'id',
     },
   })
-  permissions: PermissionEntity[];
+  permissions: (PermissionEntity | undefined)[];
 }

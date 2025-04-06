@@ -27,10 +27,9 @@ const connectionOptions: TypeOrmModuleOptions &
   )
     ? 'all'
     : ['warn', 'error'],
-  logger: 'file',
   migrationsTableName: 'migration',
   migrations: [join(__dirname, '..', 'database/migrations/*{.js,.ts}')],
-  seeds: ['src/database/seeds/*.seeder.{ts,js}'],
+  seeds: [join(__dirname, '..', 'database/seeds/*.seeder.{ts,js}')],
   factories: [join(__dirname, '..', 'database/factories/*.factory.{ts,js}')],
   subscribers: [join(__dirname, '..', 'modules/**/*.subscriber.{ts,js}')],
 };

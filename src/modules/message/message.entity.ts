@@ -1,12 +1,6 @@
-import { AbstractEntityWithAudit } from 'src/database';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  CreateDateColumn,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+
+import { AbstractEntityWithAudit } from '../../database';
 import { UserEntity } from '../user/user.entity';
 
 @Entity('messages')

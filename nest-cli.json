@@ -8,20 +8,20 @@
       {
         "include": "i18n/**/*",
         "outDir": "dist/src"
+      },
+      {
+        "include": "modules/mail/templates/**/*",
+        "outDir": "dist/src"
+      },
+      {
+        "include": "modules/mail/assets/**/*",
+        "outDir": "dist/src"
+      },
+      {
+        "include": "modules/excel-file/templates/**/*",
+        "outDir": "dist/src"
       }
     ],
-    "watchAssets": true,
-    "webpack": true
-  },
-  "projects": {
-    "my-schematics": {
-      "type": "library",
-      "root": "libs/my-schematics",
-      "entryFile": "index",
-      "sourceRoot": "libs/my-schematics/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/my-schematics/tsconfig.lib.json"
-      }
-    }
+    "watchAssets": true
   }
 }

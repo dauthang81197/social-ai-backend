@@ -11,8 +11,8 @@ import {
   initializeTransactionalContext,
   StorageDriver,
 } from 'typeorm-transactional';
-import { AppModule } from './app.module';
 
+import { AppModule } from './app.module';
 import { API_PREFIX, API_VERSION } from './common';
 import { setupSwagger } from './configs/setup-swagger';
 
@@ -60,7 +60,7 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(configService.get('APP_PORT')).then(() => {
+  await app.listen(configService.get('APP_PORT') || 8000).then(() => {
     Logger.log('Server listening on port ' + configService.get('APP_PORT'));
   });
 }
