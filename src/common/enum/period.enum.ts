@@ -1,5 +1,0 @@
-export enum PeriodEnum {
-  ONE_MONTHS = 'ONE_MONTHS',
-  THREE_MONTHS = 'THREE_MONTHS',
-  SIX_MONTHS = 'SIX_MONTHS',
-}

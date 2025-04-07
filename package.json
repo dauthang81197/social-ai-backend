@@ -42,8 +42,9 @@
   "dependencies": {
     "@angular-devkit/core": "16.2.16",
     "@angular-devkit/schematics": "16.2.16",
+    "@google/generative-ai": "^0.24.0",
     "@nestjs-modules/mailer": "^1.9.1",
-    "@nestjs/axios": "^3.0.1",
+    "@nestjs/axios": "^4.0.0",
     "@nestjs/bullmq": "^10.2.1",
     "@nestjs/cache-manager": "^2.2.2",
     "@nestjs/common": "^10.0.0",
@@ -53,6 +54,7 @@
     "@nestjs/microservices": "^10.3.3",
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^10.0.5",
+    "@nestjs/schedule": "2.0.0",
     "@nestjs/swagger": "^7.1.1",
     "@nestjs/terminus": "^10.0.1",
     "@nestjs/typeorm": "10.0.0",
