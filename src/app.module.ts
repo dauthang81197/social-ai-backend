@@ -12,7 +12,7 @@ import I18nModuleConfig from './i18n';
 import { TrimRequestMiddleware } from './middleware/trim.middleware';
 import { BaseModule } from './modules/base.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { HttpModule } from '@nestjs/axios';
+
 export const CORE_MODULE_IMPORT = [
   ConfigModule.forRoot({
     isGlobal: true,

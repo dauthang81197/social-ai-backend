@@ -4,7 +4,6 @@ import {
   HttpCode,
   HttpStatus,
   Query,
-  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,10 +13,8 @@ import {
   ApiBadRequestResponse,
   ApiResponse,
 } from '@nestjs/swagger';
-import { plainToInstance } from 'class-transformer';
 import { GetUser } from 'src/decorators';
 import { LogExecutionTime } from 'src/decorators/log-execution-time.decorator';
-import { PostResponseDto } from 'src/modules/post/dtos/post.response';
 import { QueryPostDto } from 'src/modules/post/dtos/query-post.dto';
 import { PostService } from 'src/modules/post/post.service';
 import { UserEntity } from 'src/modules/user/user.entity';

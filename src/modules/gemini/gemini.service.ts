@@ -1,9 +1,9 @@
 // gemini.service.ts
 import { Injectable, Logger } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
+// import { HttpService } from '@nestjs/axios';
+// import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
-import { Cron, CronExpression } from '@nestjs/schedule';
+// import { Cron, CronExpression } from '@nestjs/schedule';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { PostService } from 'src/modules/post/post.service';
 import { PostEntity } from 'src/modules/post/post.entity';
@@ -14,7 +14,7 @@ export class GeminiService {
   private readonly logger = new Logger(GeminiService.name);
 
   constructor(
-    private readonly httpService: HttpService,
+    // private readonly httpService: HttpService,
     private readonly configService: ConfigService,
     private readonly postService: PostService,
   ) {

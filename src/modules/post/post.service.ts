@@ -23,6 +23,7 @@ export class PostService {
     query: QueryPostDto,
     userLogin: UserEntity,
   ): Promise<PaginationResult<PostEntity>> {
+    console.log(userLogin);
     this.logger.log('Function get list post start !!!');
     const { limit, page } = query;
 
