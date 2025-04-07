@@ -1,6 +1,5 @@
 import 'dotenv/config';
 import * as bcrypt from 'bcrypt';
-import { AgeEnum, PeriodTypeEnum, UserGroupEnum } from './enum';
 
 export const comparePassword = (password: string, hash: string): boolean => {
   return bcrypt.compareSync(password, hash);
@@ -60,28 +59,6 @@ export const generateRandomPassword = (length: number) => {
   return password;
 };
 
-export const getUrlFrontEndPath = (userGroupAccepted: UserGroupEnum) => {
-  switch (userGroupAccepted) {
-    case UserGroupEnum.SYSTEM:
-      return process.env.ADMIN_SITE_FE_ENDPOINT;
-    case UserGroupEnum.ORGANIZATION:
-      return '/';
-    default:
-      return '/';
-  }
-};
-
-export const getUrlFrontEndEndPoint = (userGroupAccepted: UserGroupEnum) => {
-  switch (userGroupAccepted) {
-    case UserGroupEnum.SYSTEM:
-      return process.env.ADMIN_SITE_FE_ENDPOINT;
-    case UserGroupEnum.ORGANIZATION:
-      return '';
-    default:
-      return '';
-  }
-};
-
 export const getLastDayOfMonthReSub = (date?: Date) => {
   const currentDate = date || new Date();
   currentDate.setMonth(currentDate.getMonth() + 1);
@@ -118,39 +95,6 @@ export const getDaysBetweenDates = (startDate: Date, endDate: Date) => {
   return Math.abs(days);
 };
 
-export const calculateExpireDate = (
-  date: Date,
-  subscriptionType: PeriodTypeEnum,
-) => {
-  switch (subscriptionType) {
-    case PeriodTypeEnum.MONTHLY: {
-      let newMonth = date.getMonth() + 1;
-      let newYear = date.getFullYear();
-      if (newMonth > 11) {
-        newMonth = 0; // January is 0 in JS Date
-        newYear += 1;
-      }
-
-      // Handle the case where the next month has fewer days (e.g., going from Jan 31 to Feb 28/29)
-      const nextMonthDate = new Date(newYear, newMonth + 1, 0); // Setting day as 0 goes to the last day of the previous month
-      if (date.getDate() > nextMonthDate.getDate()) {
-        date.setDate(nextMonthDate.getDate());
-      }
-
-      date.setMonth(newMonth);
-      date.setFullYear(newYear);
-      break;
-    }
-
-    case PeriodTypeEnum.ANNUAL:
-      date.setFullYear(date.getFullYear() + 1);
-      break;
-  }
-
-  // Format the date as DD MMM YYYY
-  return date;
-};
-
 export function convertEnumToName<T extends object, U extends object>(
   enumNumber: number,
   fromEnum: T,
@@ -177,83 +121,6 @@ export const replaceAll = (str: string, find: string, replace: string) => {
 
 export const replaceStringDownTheLine = (str: string) => {
   return replaceAll(str, '\n', '<br/>');
-};
-
-export const getFromDateAndToDateFromAge = (age: AgeEnum) => {
-  const currentDate = new Date();
-  let startDate: Date;
-  let endDate: Date;
-  switch (age) {
-    case AgeEnum.ZERO_TO_FIFTEEN:
-      endDate = currentDate;
-      startDate = new Date(
-        currentDate.getFullYear() - 15,
-        currentDate.getMonth(),
-        currentDate.getDate(),
-      );
-      break;
-    case AgeEnum.SIXTEEN_TO_TWENTY_FOUR:
-      endDate = new Date(
-        currentDate.getFullYear() - 16,
-        currentDate.getMonth(),
-        currentDate.getDate(),
-      );
-      startDate = new Date(
-        currentDate.getFullYear() - 24 - 16,
-        currentDate.getMonth(),
-        currentDate.getDate(),
-      );
-      break;
-    case AgeEnum.TWENTY_FIVE_TO_THIRTY_SIX:
-      endDate = new Date(
-        currentDate.getFullYear() - 25,
-        currentDate.getMonth(),
-        currentDate.getDate(),
-      );
-      startDate = new Date(
-        currentDate.getFullYear() - 36 - 25,
-        currentDate.getMonth(),
-        currentDate.getDate(),
-      );
-      break;
-    case AgeEnum.THIRTY_SEVEN_TO_FIFTY_FIVE:
-      endDate = new Date(
-        currentDate.getFullYear() - 37,
-        currentDate.getMonth(),
-        currentDate.getDate(),
-      );
-      startDate = new Date(
-        currentDate.getFullYear() - 55 - 37,
-        currentDate.getMonth(),
-        currentDate.getDate(),
-      );
-      break;
-    case AgeEnum.FIFTY_SIX_TO_SIXTY_FIVE:
-      endDate = new Date(
-        currentDate.getFullYear() - 56,
-        currentDate.getMonth(),
-        currentDate.getDate(),
-      );
-      startDate = new Date(
-        currentDate.getFullYear() - 65 - 65,
-        currentDate.getMonth(),
-        currentDate.getDate(),
-      );
-      break;
-    default:
-      endDate = new Date(
-        currentDate.getFullYear() - 65,
-        currentDate.getMonth(),
-        currentDate.getDate(),
-      );
-      startDate = new Date(
-        currentDate.getFullYear() - 65 - 65,
-        currentDate.getMonth(),
-        currentDate.getDate(),
-      );
-  }
-
-  return { startDate, endDate };
 };
 
 export const calculateAge = (birthday: Date) => {
