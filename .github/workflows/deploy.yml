@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3 # Cập nhật lên phiên bản mới nhất
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3 # Cập nhật lên phiên bản mới nhất
         with:
           node-version: '18'
 
@@ -29,14 +29,14 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    needs: lint
+    needs: lint # Job build sẽ chỉ chạy nếu job lint thành công
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3 # Cập nhật lên phiên bản mới nhất
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3 # Cập nhật lên phiên bản mới nhất
         with:
           node-version: '18'
 
@@ -51,17 +51,17 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build # Job deploy chỉ chạy nếu job build thành công
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3 # Cập nhật lên phiên bản mới nhất
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3 # Cập nhật lên phiên bản mới nhất
 
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3 # Cập nhật lên phiên bản mới nhất
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
