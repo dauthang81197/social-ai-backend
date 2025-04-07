@@ -72,6 +72,10 @@ jobs:
         run: |
           docker build -t social-ai-backend .
 
+      - name: Check SSH connection
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.VPS_PRIVATE_KEY }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo 'SSH connection successful'"
+
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v0.1.0
         with:
