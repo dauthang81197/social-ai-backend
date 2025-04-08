@@ -10,7 +10,7 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -28,7 +28,7 @@ jobs:
         run: yarn lint
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: lint # Job build sẽ chỉ chạy nếu job lint thành công
 
     steps:
@@ -50,7 +50,7 @@ jobs:
         run: docker build -t social-ai-backend .
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build # Job deploy chỉ chạy nếu job build thành công
 
     steps:
@@ -72,6 +72,16 @@ jobs:
         run: |
           docker build -t social-ai-backend .
 
+      - name: Copy code to VPS
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_PRIVATE_KEY }}
+          source: "."  # current dir (GitHub runner workspace)
+          target: "/home/thang-server/apps/social-ai-backend"
+          strip_components: 1
+
       - name: Deploy via docker-compose
         run: |
           cd /home/thang-server/apps/social-ai-backend
@@ -88,16 +98,14 @@ jobs:
       - name: Notify Telegram on Failure
         if: failure()
         run: |
-          MESSAGE="❌ Build thất bại trong job *${{ github.job }}* 🚨
-        
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d parse_mode=Markdown \
+          -d text="❌ Build thất bại trong job *${{ github.job }}* 🚨
+
           🕒 Thời gian: $(date +'%Y-%m-%d %H:%M:%S')
           🔗 Repo: [${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})
           🔗 Run: [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
-      
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
-            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d parse_mode=Markdown \
-            --data-urlencode "text=$MESSAGE"
-
+    
 
 
