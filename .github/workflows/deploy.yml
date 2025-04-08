@@ -90,7 +90,7 @@ jobs:
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d parse_mode=Markdown \
-            --data-urlencode text="❌ *Build thất bại trong job:* \`${{ github.job }}\` 🚨
+            --data-urlencode text="❌ *Build thất bại trong job :* \`${{ github.job }}\` 🚨
           
             🕒 Thời gian: $(date +'%Y-%m-%d %H:%M:%S')
             🔗 Repo: [${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})
