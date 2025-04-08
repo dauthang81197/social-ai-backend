@@ -51,7 +51,7 @@ jobs:
 
       - name: Build Docker image using Buildx
         run: |
-          sudo docker buildx build --platform linux/amd64 -t social-ai-backend --load .
+          docker buildx build --platform linux/amd64 -t social-ai-backend --load .
 
   deploy:
     runs-on: self-hosted
