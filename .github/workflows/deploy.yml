@@ -61,16 +61,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Copy code to VPS
-        uses: appleboy/scp-action@v0.1.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_PRIVATE_KEY }}
-          source: "." 
-          target: "/home/thang-server/apps/social-ai-backend"
-          strip_components: 1
-
       - name: Deploy via docker-compose
         run: |
           cd /home/thang-server/apps/social-ai-backend
