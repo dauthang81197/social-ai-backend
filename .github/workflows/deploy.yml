@@ -46,8 +46,11 @@ jobs:
       - name: Build the application
         run: yarn build
 
-      - name: Build Docker image
-        run: docker build -t social-ai-backend .
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image using Buildx
+        run: docker buildx build --platform linux/amd64 -t social-ai-backend --load .
 
   deploy:
     runs-on: self-hosted
