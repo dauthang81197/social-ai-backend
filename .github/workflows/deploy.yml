@@ -74,7 +74,7 @@ jobs:
 
       - name: Deploy via docker-compose
         run: |
-          cd /home/thang/apps/social-ai-backend
+          cd /home/thang-server/apps/social-ai-backend
           docker-compose down
           docker-compose up -d --build
 
