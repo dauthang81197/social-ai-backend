@@ -72,14 +72,8 @@ jobs:
         run: |
           docker build -t social-ai-backend .
 
-      - name: Deploy to VPS via SSH
-        uses: appleboy/ssh-action@v0.1.0
-        with:
-          host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd /path/to/your/project
-            docker-compose down
-            docker-compose up -d --build
+      - name: Deploy via docker-compose
+        run: |
+          cd /path/to/your/project
+          docker-compose down
+          docker-compose up -d --build
