@@ -47,13 +47,16 @@ jobs:
         run: yarn build
 
       - name: Archive production build
-        run: tar -czf build.tar.gz .
+        run: |
+          mkdir -p packaged
+          tar -czf packaged/build.tar.gz dist Dockerfile docker-compose.yml
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: build
-          path: build.tar.gz
+          path: packaged/build.tar.gz
+
 
 
   deploy:
