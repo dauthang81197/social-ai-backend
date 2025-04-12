@@ -86,11 +86,24 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            if ! command -v docker &> /dev/null; then
+              echo "Docker chưa cài. Tiến hành cài đặt..."
+              curl -fsSL https://get.docker.com -o get-docker.sh
+              sudo sh get-docker.sh
+              sudo systemctl enable docker
+              sudo systemctl start docker
+            fi
+          
+            # Tạo thư mục nếu chưa có
+            mkdir -p /home/ec2-user/app
             cd /home/ec2-user/app
+          
             rm -rf dist
             tar -xzf dist.tar.gz
+          
             docker compose down
             docker compose up -d --build
+
 
       - name: Notify Telegram on Success
         if: success()
