@@ -49,15 +49,20 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/social-ai-backend .
-          docker tag social-ai-backend ${{ secrets.DOCKER_USERNAME }}/social-ai-backend:latest
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/social-ai-backend:${GITHUB_SHA::8} .
+          docker tag ${{ secrets.DOCKER_USERNAME }}/social-ai-backend:${GITHUB_SHA::8} ${{ secrets.DOCKER_USERNAME }}/social-ai-backend:latest
 
       - name: Push Docker image to Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/social-ai-backend:latest
+        if: github.ref == 'refs/heads/develop' # Only push latest on develop
+      - name: Push Docker image with SHA tag
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/social-ai-backend:${GITHUB_SHA::8}
+        if: github.ref == 'refs/heads/develop' # Only push tagged image on develop
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
+    if: github.ref == 'refs/heads/develop' # Only deploy on develop branch
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -78,11 +83,10 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
             cd /home/ec2-user/app
-            
+
             docker pull ${{ secrets.DOCKER_USERNAME }}/social-ai-backend:latest
 
             docker stack deploy -c docker-compose.yml social-ai-be-stack
@@ -92,12 +96,12 @@ jobs:
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d text="✅ CI/CD Build & Deploy thành công trên Docker Swarm! 🚀"
+            -d text="✅ CI/CD Build & Deploy thành công trên Docker Swarm! 🚀 (Branch: develop)"
 
       - name: Notify Telegram on Failure
         if: failure()
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
-            --data-urlencode text="❌ *Build hoặc Deploy thất bại trong job:* \`${{ github.job }}\` 🚨" \
+            --data-urlencode text="❌ *Build hoặc Deploy thất bại trong job:* \`${{ github.job }}\` trên branch `develop` 🚨" \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d parse_mode=Markdown
