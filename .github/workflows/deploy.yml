@@ -78,9 +78,13 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
             cd /home/ec2-user/app
+            
             docker pull ${{ secrets.DOCKER_USERNAME }}/social-ai-backend:latest
+
             docker stack deploy -c docker-compose.yml social-ai-be-stack
 
       - name: Notify Telegram on Success
