@@ -17,4 +17,4 @@ RUN yarn build
 EXPOSE 8000
 
 # Chạy ứng dụng
-CMD ["yarn", "start:prod"]
+CMD ["node", "dist/src/main.js"]
