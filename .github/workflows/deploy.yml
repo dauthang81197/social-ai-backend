@@ -49,7 +49,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t social-ai-backend .
+          docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/social-ai-backend .
           docker tag social-ai-backend ${{ secrets.DOCKER_USERNAME }}/social-ai-backend:latest
 
       - name: Push Docker image to Docker Hub
