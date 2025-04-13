@@ -6,7 +6,7 @@ services:
     environment:
       NODE_ENV: ${ENV}
     deploy:
-      replicas: 3  # Bạn có thể điều chỉnh số replicas (bản sao của dịch vụ) tùy ý
+      replicas: 1  # Bạn có thể điều chỉnh số replicas (bản sao của dịch vụ) tùy ý
       resources:
         limits:
           cpus: '0.5'
