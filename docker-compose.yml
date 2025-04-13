@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: ${DOCKER_REGISTRY}/${IMAGE_NAME}:${ENV}
+    image: ec2-user/social-ai-backend:latest
     environment:
       NODE_ENV: ${ENV}
     deploy:
