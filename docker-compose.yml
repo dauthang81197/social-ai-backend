@@ -12,8 +12,8 @@ services:
           cpus: '0.5'
           memory: 512M
     configs:
-      - source: ${CONFIG_NAME}-${ENV}  # Chỉ định config từ Docker Swarm
-        target: /app/.env  # Gắn config vào container tại /app/.env
+      - source: social-ai-backend-dev
+        target: /app/.env
     networks:
       - app-net
     logging:
@@ -23,7 +23,7 @@ services:
         max-file: "3"
 
 configs:
-  ${CONFIG_NAME}-${ENV}:
+  social-ai-backend-dev:
     external: true  # Sử dụng config đã tạo bên ngoài
 
 networks:
