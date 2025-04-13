@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: ec2-user/social-ai-backend:latest
+    image: dauthang811/social-ai-backend:latest
     environment:
       NODE_ENV: ${ENV}
     deploy:
