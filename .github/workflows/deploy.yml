@@ -44,16 +44,16 @@ jobs:
       - name: Build application
         run: yarn build
 
-      - name: Archive dist folder only
-        run: |
-          mkdir -p packaged
-          tar -czf packaged/dist.tar.gz dist
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: packaged/dist.tar.gz
+      - name: Build Docker image
+        run: |
+          docker build -t social-ai-backend .
+          docker tag social-ai-backend ${{ secrets.DOCKER_USERNAME }}/social-ai-backend:latest
+
+      - name: Push Docker image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/social-ai-backend:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -61,21 +61,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: .
-
-      - name: Copy dist.tar.gz to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "dist.tar.gz"
-          target: "/home/ec2-user/app"
 
       - name: Copy docker-compose.yml to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -93,10 +78,8 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ec2-user/app
-            rm -rf dist
-            tar -xzf dist.tar.gz
-            docker stack deploy -c docker-compose.yml social-ai-be-stack
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            docker stack deploy -c /home/ec2-user/app/docker-compose.yml social-ai-be-stack
 
       - name: Notify Telegram on Success
         if: success()
@@ -109,6 +92,6 @@ jobs:
         if: failure()
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
-            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             --data-urlencode text="❌ *Build hoặc Deploy thất bại trong job:* \`${{ github.job }}\` 🚨" \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d parse_mode=Markdown
