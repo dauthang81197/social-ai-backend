@@ -11,7 +11,6 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { PostModule } from './post/post.module';
 import { RolesModule } from './roles/roles.module';
 import { UserModule } from './user/user.module';
-import { GeminiModule } from './gemini/gemini.module';
 
 export const BASE_PLATFORM_IMPORTS = [
   HealthCheckerModule,
@@ -27,6 +26,6 @@ export const BASE_PLATFORM_IMPORTS = [
   AuthModule,
 ];
 @Module({
-  imports: [...BASE_PLATFORM_IMPORTS, GeminiModule],
+  imports: [...BASE_PLATFORM_IMPORTS],
 })
 export class BaseModule {}
