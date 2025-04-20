@@ -1,14 +1,13 @@
-# Bắt đầu với hình ảnh Node.js chính thức
 FROM node:18-alpine
-WORKDIR /usr/src/app
-COPY package*.json yarn.lock ./
-RUN yarn install --frozen-lockfile
-COPY . .
-RUN yarn build
 
-FROM node:18-alpine
-WORKDIR /usr/src/app
-COPY --from=builder /usr/src/app/dist ./dist
-COPY --from=builder /usr/src/app/node_modules ./node_modules
+WORKDIR /app
+COPY ../libs/entities/dist ../libs/entities/dist
+COPY ./dist ./dist
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install --frozen-lockfile && yarn cache clean
+
 EXPOSE 8000
-CMD ["node", "dist/src/main"]
+
+CMD ["yarn", "start:prod"]
