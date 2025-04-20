@@ -1,6 +1,7 @@
 FROM node:18-alpine
 
 WORKDIR /app
+
 COPY ./dist ./dist
 COPY package.json .
 COPY yarn.lock .
