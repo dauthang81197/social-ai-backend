@@ -1,9 +1,7 @@
 // gemini.service.ts
 import { Injectable, Logger } from '@nestjs/common';
-// import { HttpService } from '@nestjs/axios';
-// import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
-// import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { PostService } from 'src/modules/post/post.service';
 import { PostEntity } from 'src/modules/post/post.entity';
@@ -14,7 +12,6 @@ export class GeminiService {
   private readonly logger = new Logger(GeminiService.name);
 
   constructor(
-    // private readonly httpService: HttpService,
     private readonly configService: ConfigService,
     private readonly postService: PostService,
   ) {
@@ -24,7 +21,7 @@ export class GeminiService {
     );
   }
 
-  //   @Cron(CronExpression.EVERY_30_SECONDS)
+  @Cron(CronExpression.EVERY_10_MINUTES)
   async handleCron() {
     this.logger.log('Đang chạy job mỗi 1 tiếng...');
 
@@ -35,7 +32,6 @@ export class GeminiService {
           Make sure the content is engaging and relevant for a broad audience.
         `,
     );
-    console.log(result, 'faskdlj');
 
     await this.postService.addPost({
       content: result.content,
@@ -45,7 +41,6 @@ export class GeminiService {
 
   async generateContent(prompt: string) {
     try {
-      // Lấy mô hình Generative từ API
       const model = this.generativeAI.getGenerativeModel({
         model: 'gemini-1.5-flash', // Mô hình AI bạn muốn sử dụng
       });
