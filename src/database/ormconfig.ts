@@ -15,6 +15,9 @@ const connectionOptions: TypeOrmModuleOptions &
   username: process.env.DATABASE_POSTGRES_USERNAME,
   password: process.env.DATABASE_POSTGRES_PASSWORD,
   database: process.env.DATABASE_POSTGRES_NAME,
+  ssl: {
+    rejectUnauthorized: false,
+  },
   connectTimeoutMS: 0,
   logNotifications: true,
   synchronize: false,
