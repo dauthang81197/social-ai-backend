@@ -5,6 +5,8 @@ services:
     image: dauthang811/social-ai-backend:latest
     environment:
       NODE_ENV: ${ENV}
+    ports:
+      - "8000:8000"
     deploy:
       replicas: 1  # Bạn có thể điều chỉnh số replicas (bản sao của dịch vụ) tùy ý
       resources:
